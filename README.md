@@ -1,5 +1,3 @@
 # ASE-Lab-Assignment
-creating repositories for all lab assignments
+creating repository for lab assignment1
 https://github.com/DivyaPutta/ASE-Lab-Assignment/wiki/Lab-Assignment-1
-https://github.com/DivyaPutta/ASE-Lab-Assignment/wiki/Lab-Assignment-2
-https://github.com/DivyaPutta/ASE-Lab-Assignment/wiki/Lab-Assignment-3

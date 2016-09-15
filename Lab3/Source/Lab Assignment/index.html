@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Web Mashup: Show the best restaurants in a location on a Map</title>
+    <meta charset="utf-8"/>
+    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIW2ni62vlA97rusSud5DiwA8jQyt6MY8&sensor=true">
+    </script>
+</head>
+<h1 > Search for best restaurant in your location for !</h1>
+<body onload="initialize();">
+<form>
+    <label><b>Search Terms:</b> <input type="text" id="search"/></label>
+    <input type="button" onclick="sendRequest();" value="Find"/>
+</form>
+<div id="googleMap" style="width: 100%; height: 500px; float: left; margin-top: 35px; border: 1px inset; border-radius: 5px; position: relative; background-color: rgb(255, 255, 255); font-family: Palatino Linotype; overflow: hidden;"></div>
+<div style="float: right; margin-top: 35px; " id="output"></div>
+</body>
+</html>

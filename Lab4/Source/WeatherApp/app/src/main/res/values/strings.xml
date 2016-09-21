@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Weather App</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_weather">WeatherActivity</string>
+    <string name="signin_text">login</string>
+    <string name="password_text">password</string>
+    <string name="username_text">username</string>
+    <string name="Button">Weather report</string>
+    <string name="change_city">Edit city</string>
+    <string name="logout_text">Logout</string>
+
+    <string name="login_text">Login</string>
+    <!-- Put your own APP ID here -->
+    <string name="open_weather_maps_app_id">1d25203175754ccb8aad48a4d377db18</string>
+    <string name="weather_sunny"></string>
+    <string name="weather_clear_night">
+        </string><string name="weather_foggy">
+    </string><string name="weather_cloudy">
+</string><string name="weather_rainy">
+    </string><string name="weather_snowy">
+</string><string name="weather_thunder">
+</string><string name="weather_drizzle">
+    </string><string name="place_not_found">Sorry, no weather data found.</string>
+</resources>

@@ -1,0 +1,10 @@
+<resources>
+	<string name="app_name">Sign_UpAPP</string>
+	<string name="title_activity_maps">Map</string>
+	<string name="title_activity_main">CamGpsAPP</string>
+	<string name="signup">Sign_up</string>
+	<string name="password_text">password</string>
+	<string name="username_text">username</string>
+	<string name="email_text">email</string>
+	<string name="fullname_text">fullname</string>
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Use this file to deploy some handlers/chains and services      --><!-- Two ways to do this:                                           --><!--   java org.apache.axis.client.AdminClient deploy.wsdd          --><!--      after the axis server is running                          --><!-- or                                                             --><!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   --><!--      from the same directory that the Axis engine runs         --><deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from TodolistService WSDL service -->
+
+  <service name="Todolist" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://experiment8.DivyaPutta.visualstudio.com"/>
+      <parameter name="wsdlServiceElement" value="TodolistService"/>
+      <parameter name="schemaQualified" value="http://experiment8.DivyaPutta.visualstudio.com"/>
+      <parameter name="wsdlServicePort" value="Todolist"/>
+      <parameter name="className" value="com.visualstudio.DivyaPutta.experiment8.Todolist"/>
+      <parameter name="wsdlPortType" value="Todolist"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation xmlns:operNS="http://experiment8.DivyaPutta.visualstudio.com" name="main" qname="operNS:main" soapAction="">
+        <parameter xmlns:pns="http://experiment8.DivyaPutta.visualstudio.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:args" type="tns:string"/>
+      </operation>
+      <parameter name="allowedMethods" value="main"/>
+
+  </service>
+</deployment>

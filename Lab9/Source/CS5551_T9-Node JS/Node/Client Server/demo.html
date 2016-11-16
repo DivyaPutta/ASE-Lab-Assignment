@@ -13,7 +13,7 @@
  <script>
         $(document).ready(function() {
         var hello= "yellow yell";
-        $.getJSON('https://api.uclassify.com/v1/uclassify/sentiment/classify/?readKey=zp3PVGoy6XnZ&text=hello', function(Results) {
+        $.getJSON('https://api.chat.com/v1/uclassify/sentiment/classify/?readKey=zp3PVGoy6XnZ&text=hello', function(Results) {
             document.write(Results.negative);
         });
     });

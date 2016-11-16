@@ -1,5 +1,5 @@
 var request = require('request');
-request('https://developers.google.com/maps/web?client_id=1d25203175754ccb8aad48a4d377db18&client_secret=1d25203175754ccb8aad48a4d377db18&limit=1&near=Kansas&query=Temperature', function (error, response, body) {
+request('https://api.foursquare.com/v2/venues/search?client_id=Q0ENF1YHFTNPJ31DCF13ALLENJW0P5MTH13T1SA0ZP1MUOCI&client_secret=ZH4CRZNEWBNTALAE3INIB5XG0QI12R4DT5HKAJLWKYE1LHOG&v=20160215&limit=10&near=Kansas&query=pizza', function (error, response, body) {
     //Check for error
     if(error){
         return console.log('Error:', error);
@@ -12,11 +12,11 @@ request('https://developers.google.com/maps/web?client_id=1d25203175754ccb8aad48
 //	console.log(body);
     //All is good. Print the body
     body = JSON.parse(body);
-	var place = body.response.places;
+	var ven = body.response.venues;
 	var i;
-	for(i=0;i<place.length;i++)
+	for(i=0;i<ven.length;i++)
 	{
-		console.log(place[i].name);
+		console.log(ven[i].name);
 	}
 	
 });

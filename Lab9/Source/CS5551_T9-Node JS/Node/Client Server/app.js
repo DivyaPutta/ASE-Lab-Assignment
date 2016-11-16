@@ -1,72 +1,74 @@
-'use strict';
+function getName() {
+    var name = window.names[Math.floor(Math.random() * window.names.length)];
+    var tokens = name.split(',');
 
-// Declare app level module which depends on views, and components
-angular.module('myApp', [])
+    if (tokens.length > 1) {
+        return askForName($.trim(tokens[1]) + ' ' + $.trim(tokens[0]));
+    }
+    return name;
+}
 
+function askForName(s){
+    var person = prompt("Please enter your name", s);
+    if (person != null) {
+        return person;
+    }
+    return s;
+}
 
-    .controller('View1Ctrl', function ($scope, $http) {
-        $scope.PlaceList = new Array();
-        $scope.mostRecentReview;
-        $scope.getLocation = function () {
-            var placeEntered = document.getElementById("txt_placeName").value;
-            var searchQuery = document.getElementById("txt_searchFilter").value;
-            if (placeEntered != null && placeEntered != "" && searchQuery != null && searchQuery != "") {
-                document.getElementById('div_ReviewList').style.display = 'none';
-                //This is the API that gives the list of venues based on the place and search query.
-                var handler = $http.get("https://home.openweathermap.org/api_keys" +
-                    "?client_id=1d25203175754ccb8aad48a4d377db18" +
-                    "&client_secret=1d25203175754ccb8aad48a4d377db18" +
-                    "&v=20160215&limit=5" +
-                    "&near=" + placeEntered +
-                    "&query=" + searchQuery);
-                handler.success(function (data) {
+function escaped(s) {
+    return $('<div></div>').html(s).html();
+}
 
+function searchUrlFor(name) {
+    return 'https://www.google.com/search?q=' + encodeURIComponent(name) + '%20site:wikipedia.org&btnI=3564';
+}
 
-                })
-                handler.error(function (data) {
-                    alert("There was some error processing your request. Please try after some time.");
-                });
-            }
-        }
-        $scope.getReviews = function (placeSelected) {
-            if (placeSelected != null) {
-                //This is the API call being made to get the reviews(tips) for the selected place or venue.
-                var handler = $http.get("https://home.openweathermap.org/api_keys" + placeSelected.id + "/tips" +
-                    "?sort=recent" +
-                    "&client_id=1d25203175754ccb8aad48a4d377db18" +
-                    "&client_secret=1d25203175754ccb8aad48a4d377db18" +
-                    "&limit=5");
-                handler.success(function (result) {
-					console.log(result);
-                    if (result != null && result.response != null && result.response.tips != null &&
-                        result.response.tips.items != null && result.response.tips.count != 0) {
-                        $scope.showt=true;
-                        $scope.shows=false;
-                        $scope.mostRecentReview = result.response.tips.items[0];
-						console.log($scope.mostRecentReview);
+var name = getName();
 
+$('#data').attr('placeholder', 'send message as ' + name);
 
-                            if(data!=null && data.docSentiment!=null)
-                            {
-                                $scope.ReviewWithSentiment = {"reviewText" : $scope.mostRecentReview.text,
-                                                            "sentiment":data.docSentiment.type,
-                                                             "score":data.docSentiment.score  };
-                                document.getElementById('div_ReviewList').style.display = 'block';
-                            }
-                        })
-                    }
-					else
-					{
-						$scope.showt=false;
-                        $scope.shows=true;
-                        $scope.noText="No review";
-					}
-                })
-                handler.error(function (result) {
-                    alert("There was some error processing your request. Please try after some time.")
-                })
-            }
+var socket = io.connect('/');
 
-        }
+// on connection to server, ask for user's name with an anonymous callback
+socket.on('connect', function () {
+    // call the server-side function 'adduser' and send one parameter (value of prompt)
+    socket.emit('adduser', name);
+});
 
+// listener, whenever the server emits 'updatechat', this updates the chat body
+socket.on('updatechat', function (username, data) {
+    $('#conversation').append('<b>' + escaped(username) + ':</b> ' + escaped(data) + '<br/>');
+});
+
+// listener, whenever the server emits 'updateusers', this updates the username list
+socket.on('updateusers', function (data) {
+    $('#users').empty();
+    $.each(data, function (key, value) {
+        $('#users').append('<div><a href="' + searchUrlFor(key) + '" target="_blank">' + key + '</div>');
     });
+});
+
+socket.on('servernotification', function (data) {
+    var searchUrl = searchUrlFor(data.username);
+
+    if (data.connected) {
+        if (data.toSelf) data.username = 'you';
+        $('#conversation').append('connected: <a href="' + searchUrl + '" target="_blank">' + escaped(data.username) + '</a><br/>');
+    } else {
+        $('#conversation').append('disconnected: <a href="' + searchUrl + '" target="_blank">' + escaped(data.username) + '</a><br/>');
+    }
+});
+
+// on load of page
+$(function () {
+    // when the client hits ENTER on their keyboard
+    $('#data').keypress(function (e) {
+        if (e.which == 13) {
+            var message = $('#data').val();
+            $('#data').val('');
+            // tell server to execute 'sendchat' and send along one parameter
+            socket.emit('sendchat', message);
+        }
+    });
+});

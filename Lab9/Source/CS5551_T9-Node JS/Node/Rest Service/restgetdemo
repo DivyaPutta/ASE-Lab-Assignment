@@ -1,5 +1,5 @@
 /**
- * Created by divya on 23/10/2016.
+ * Created by Marmik on 04/10/2016.
  */
 var express = require('express');
 var app = express();
@@ -9,7 +9,7 @@ app.get('/getPlace', function (req, res) {
         'venue': []
     };
 
-    request('https://developers.google.com/maps/web?client_id=1d25203175754ccb8aad48a4d377db18&client_secret=1d25203175754ccb8aad48a4d377db18&limit=1&near=Kansas&query=Temperature', function (error, response, body) {
+    request('https://api.foursquare.com/v2/venues/search?client_id=Q0ENF1YHFTNPJ31DCF13ALLENJW0P5MTH13T1SA0ZP1MUOCI&client_secret=ZH4CRZNEWBNTALAE3INIB5XG0QI12R4DT5HKAJLWKYE1LHOG&v=20160215&limit=5&near=Kansas&query=pizza', function (error, response, body) {
         //Check for error
         if(error){
             return console.log('Error:', error);
@@ -21,11 +21,11 @@ app.get('/getPlace', function (req, res) {
         }
         //All is good. Print the body
         body = JSON.parse(body);
-        var place = body.response.Places;
-        for(var i=0;i<Place.length;i++)
+        var ven = body.response.venues;
+        for(var i=0;i<ven.length;i++)
         {
-            result.place.push({'name': place[i].name,
-                                'address':place[i].location.formattedAddress.toString()});
+            result.venue.push({'name': ven[i].name,
+                                'address':ven[i].location.formattedAddress.toString()});
         }
         res.contentType('application/json');
         res.write(JSON.stringify(result));
